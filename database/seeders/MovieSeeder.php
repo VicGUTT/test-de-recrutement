@@ -16,6 +16,6 @@ class MovieSeeder extends Seeder
      */
     public function run()
     {
-        Movie::factory(10)->create();
+        Movie::factory((new Movie())->getPerPage() * 5)->create();
     }
 }
