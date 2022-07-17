@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Movie;
+use Illuminate\View\View;
 
-class MovieController extends Controller
+class MovieController
 {
-    //
+    public function __invoke(): View
+    {
+        return view('pages.movies.index', [
+            'movies' => Movie::all(),
+        ]);
+    }
 }
