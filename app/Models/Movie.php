@@ -62,6 +62,14 @@ class Movie extends Model
         });
     }
 
+    /**
+     * @example Movie::searchWithTerm('Titanic')->get();
+     */
+    public function scopeSearchWithTerm(Builder $query, string $term): Builder
+    {
+        return $query->search(self::searchableFields(), $term);
+    }
+
 
     /* Methods
     ------------------------------------------------*/

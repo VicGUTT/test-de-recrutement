@@ -93,18 +93,18 @@ class IndexTest extends TestCase
             ->assertStatus(200)
             ->assertSeeText(['Titanic', 'Drama', 'Titan', 'Science-Fiction'])
             ->assertDontSeeText(['Yolo', 'Unknown'])
-            ->assertViewHas('movies', Movie::search(Movie::searchableFields(), 'tit')->paginate());
+            ->assertViewHas('movies', Movie::searchWithTerm('tit')->paginate());
 
         $this->get('/?q=titani')
             ->assertStatus(200)
             ->assertSeeText(['Titanic', 'Drama'])
             ->assertDontSeeText(['Science-Fiction'])
-            ->assertViewHas('movies', Movie::search(Movie::searchableFields(), 'titani')->paginate());
+            ->assertViewHas('movies', Movie::searchWithTerm('titani')->paginate());
 
         $this->get('/?q=titanic')
             ->assertStatus(200)
             ->assertSeeText(['Titanic', 'Drama'])
             ->assertDontSeeText(['Science-Fiction'])
-            ->assertViewHas('movies', Movie::search(Movie::searchableFields(), 'titanic')->paginate());
+            ->assertViewHas('movies', Movie::searchWithTerm('titanic')->paginate());
     }
 }

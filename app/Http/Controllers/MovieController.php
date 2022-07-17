@@ -13,7 +13,7 @@ class MovieController
     public function __invoke(MovieIndexRequest $request): View
     {
         return view('pages.movies.index', [
-            'movies' => Movie::search(Movie::searchableFields(), $request->term() ?: '')->paginate(),
+            'movies' => Movie::searchWithTerm($request->term() ?: '')->paginate(),
         ]);
     }
 }
