@@ -1,6 +1,11 @@
 <x-layout>
     <header class="container search-form-wrapper">
-        <form class="search-form">
+        <form
+            class="search-form"
+            o-component="search-form"
+            data-error-wrapper-id="#search-error-wrapper"
+            data-results-id="#search-results"
+        >
             <input
                 id="search"
                 class="search-field"
@@ -17,12 +22,14 @@
             </svg>
         </form>
 
-        @error('q')
-            <small class="search-error" aria-live="polite">{{ $message }}</small>
-        @enderror
+        <div id="search-error-wrapper">
+            @error('q')
+                <small class="search-error" aria-live="polite">{{ $message }}</small>
+            @enderror
+        </div>
     </header>
 
-    <main class="container" o-component="yolo">
+    <main id="search-results" class="container">
         @if ($movies && $movies->isNotEmpty())
             <section class="card-list">
                 @foreach ($movies as $movie)

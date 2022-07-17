@@ -1,5 +1,5 @@
-import yolo from './yolo';
+import searchForm from './search-form';
 
 export default {
-    yolo,
+    'search-form': searchForm,
 };
