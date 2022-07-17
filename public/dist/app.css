@@ -32,8 +32,10 @@ img {
 /* Base
 ------------------------------------------------*/
 
-/* Values taken from the Ignition error page 😅 */
 :root {
+    /* Values taken from the Ignition error page 😅
+    ------------------------------------------------*/
+
     --white: 255 255 255;
     --primary-100: 251 245 255;
     --primary-200: 236 211 253;
@@ -54,6 +56,12 @@ img {
     --gray-600: 142 137 162;
     --gray-700: 75 71 109;
     --gray-800: 51 47 81;
+
+    /* Custom
+    ------------------------------------------------*/
+
+    --muted: var(--gray-400);
+    --rounded: 1rem;
 }
 
 body {
@@ -61,5 +69,242 @@ body {
     color: rgb(var(--gray-800));
     line-height: inherit;
     background-color: rgb(var(--gray-50));
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    background-color: transparent;
+}
+
+
+/* Utilities
+------------------------------------------------*/
+
+.container {
+    max-width: min(85rem, 100vw - 2rem);
+    margin-inline: auto;
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.card {
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    border-radius: var(--rounded);
+    background-color: rgb(var(--white));
+    transition: box-shadow .15s ease;
+}
+
+.card-list {
+    display: grid;
+    row-gap: 2rem;
+    -moz-column-gap: 1rem;
+         column-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+
+/* Search bar related styles
+------------------------------------------------*/
+
+.search-form-wrapper {
+    padding-block: 4rem;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+    --icon-size: 1.5rem;
+}
+
+.search-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    -webkit-margin-start: 1rem;
+            margin-inline-start: 1rem;
+    color: rgb(var(--gray-600));
+    pointer-events: none;
+    transition: color 250ms ease-in-out;
+    z-index: 1;
+}
+
+.search-field {
+    width: 100%;
+    padding-block: 1rem;
+    padding-inline: 1.5rem;
+    -webkit-padding-start: calc(var(--icon-size) * 2);
+            padding-inline-start: calc(var(--icon-size) * 2);
+    -webkit-margin-start: calc(calc(var(--icon-size) * -1) - 1rem);
+            margin-inline-start: calc(calc(var(--icon-size) * -1) - 1rem); /* negate the icon size value and add minus 1rem to it */
+    font-size: 1rem;
+    font-weight: 600;
+    border: solid 2px rgb(var(--gray-500));
+    border-radius: var(--rounded);
+    transition: border-color 250ms ease-in-out;
+}
+.search-field:focus {
+    border-color: rgb(var(--primary-500));
+    outline: none;
+}
+.search-field:focus ~ .search-icon {
+    color: rgb(var(--primary-500));
+}
+
+.search-error {
+    -webkit-margin-before: .5rem;
+            margin-block-start: .5rem;
+    display: block;
+    font-size: 80%;
+    color: rgb(var(--red-400));
+}
+
+
+/* Movie related styles
+------------------------------------------------*/
+
+.movie-card {
+    position: relative;
+}
+
+.movie-card-poster {
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    -o-object-fit: cover;
+       object-fit: cover;
+    display: block;
+    border-radius: var(--rounded);
+}
+
+.movie-card-content {
+    inset: 0;
+    color: rgb(var(--white));
+    padding: .6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: right;
+    font-size: .9rem;
+    border-radius: var(--rounded);
+    position: absolute;
+    z-index: 1;
+    /* From Dribbble */
+    background: linear-gradient(180deg, transparent 62%, rgba(0,0,0,0.00345888) 63.94%, rgba(0,0,0,0.014204) 65.89%, rgba(0,0,0,0.0326639) 67.83%, rgba(0,0,0,0.0589645) 69.78%, rgba(0,0,0,0.0927099) 71.72%, rgba(0,0,0,0.132754) 73.67%, rgba(0,0,0,0.177076) 75.61%, rgba(0,0,0,0.222924) 77.56%, rgba(0,0,0,0.267246) 79.5%, rgba(0,0,0,0.30729) 81.44%, rgba(0,0,0,0.341035) 83.39%, rgba(0,0,0,0.367336) 85.33%, rgba(0,0,0,0.385796) 87.28%, rgba(0,0,0,0.396541) 89.22%, rgba(0,0,0,0.4) 91.17%);
+}
+
+.movie-card-name {
+    display: block;
+}
+
+.movie-card-genre {
+    display: block;
+    font-size: 85%;
+    color: rgb(var(--muted));
+}
+
+.movie-card-trigger {
+    inset: 0;
+    border-radius: var(--rounded);
+    transition: box-shadow 250ms ease-in-out;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    position: absolute;
+    z-index: 1;
+}
+
+.movie-card-trigger:focus-visible {
+    outline: none;
+    box-shadow: rgb(var(--primary-500) / 50%) 0px 0px 0px 3px;
+}
+
+.movie-pagination-wrapper nav {
+    padding-block: 4rem;
+    display: flex;
+    align-item: center;
+    justify-content: center;
+}
+
+.movie-pagination-wrapper .hidden {
+    display: none;
+}
+
+.movie-pagination-wrapper .flex.justify-between.flex-1 {
+    display: flex;
+    gap: 1rem;
+}
+
+.movie-pagination-wrapper .relative.z-0.inline-flex.shadow-sm.rounded-md {
+    display: none;
+}
+
+@media (min-width: 430px) {
+    .movie-pagination-wrapper nav {
+        justify-content: space-between;
+    }
+    .movie-pagination-wrapper .hidden {
+        display: block;
+    }
+}
+
+
+/* Misc.
+------------------------------------------------*/
+
+.decoration-background {
+    inset: 0;
+    -webkit-padding-before: 250px;
+            padding-block-start: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: blur(24px);
+    mix-blend-mode: multiply;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    position: fixed;
+    z-index: -1;
+}
+
+.decoration-background .container {
+    width: 100%;
+    position: relative;
+}
+
+.decoration-background .container > div {
+    width: 50vw;
+    height: 70vh;
+    -webkit-margin-before: -4rem;
+            margin-block-start: -4rem;
+    -webkit-margin-start: auto;
+            margin-inline-start: auto;
 }
 
