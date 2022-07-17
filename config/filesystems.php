@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -40,6 +42,12 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
+        ],
+
+        'data' => [
+            'driver' => 'local',
+            'root' => database_path('data'),
+            'visibility' => 'private',
         ],
 
         's3' => [

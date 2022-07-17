@@ -1,7 +1,7 @@
 <article class="card movie-card">
     <img
         class="movie-card-poster"
-        src="{{ $item->image }}"
+        src="{{ $item->image_url }}"
         alt="Image de couverture du film : {{ $item->name }}"
         width="180"
         height="240"

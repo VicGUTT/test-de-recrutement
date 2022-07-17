@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $name
  * @property string $genre
  * @property string $image
+ * @property string $image_url
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -68,6 +70,19 @@ class Movie extends Model
     public function scopeSearchWithTerm(Builder $query, string $term): Builder
     {
         return $query->search(self::searchableFields(), $term);
+    }
+
+
+    /* Attributes
+    ------------------------------------------------*/
+
+    public function getImageUrlAttribute(): string
+    {
+        if (!config('services.tmdb.key')) {
+            return $this->image;
+        }
+
+        return Storage::disk('public')->url($this->image);
     }
 
 
