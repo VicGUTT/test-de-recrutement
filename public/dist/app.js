@@ -1,13 +1,87 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-console.log('hello');
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _vueish__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./vueish */ "./resources/js/vueish.js");
+/* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components */ "./resources/js/components/index.js");
+
+
+_vueish__WEBPACK_IMPORTED_MODULE_0__["default"].components(_components__WEBPACK_IMPORTED_MODULE_1__["default"]).mount();
+
+/***/ }),
+
+/***/ "./resources/js/components/index.js":
+/*!******************************************!*\
+  !*** ./resources/js/components/index.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _yolo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./yolo */ "./resources/js/components/yolo.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  yolo: _yolo__WEBPACK_IMPORTED_MODULE_0__["default"]
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/yolo.js":
+/*!*****************************************!*\
+  !*** ./resources/js/components/yolo.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (el) {
+  console.log(el);
+});
+
+/***/ }),
+
+/***/ "./resources/js/vueish.js":
+/*!********************************!*\
+  !*** ./resources/js/vueish.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  _components: {},
+  components: function components(entries) {
+    this._components = entries;
+    return this;
+  },
+  mount: function mount() {
+    var _this = this;
+
+    document.querySelectorAll('[o-component]').forEach(function (el) {
+      var componentName = el.getAttribute('o-component');
+
+      if (!(componentName !== null && componentName !== void 0 && componentName.trim().length)) {
+        return;
+      }
+
+      var component = _this._components[componentName];
+      component === null || component === void 0 ? void 0 : component(el);
+    });
+  }
+});
 
 /***/ }),
 
@@ -17,7 +91,6 @@ console.log('hello');
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -83,6 +156,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
 /******/ 		};
 /******/ 	})();
 /******/ 	

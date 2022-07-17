@@ -22,7 +22,7 @@
         @enderror
     </header>
 
-    <main class="container">
+    <main class="container" o-component="yolo">
         @if ($movies && $movies->isNotEmpty())
             <section class="card-list">
                 @foreach ($movies as $movie)
