@@ -26,6 +26,18 @@ class MovieIndexRequest extends FormRequest
         ];
     }
 
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'q' => 'terme',
+        ];
+    }
+
     public function term(): ?string
     {
         return $this->validated()['q'] ?? null;
