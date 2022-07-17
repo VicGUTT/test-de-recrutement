@@ -32,7 +32,7 @@ return [
 
     'disks' => [
 
-        'local' => [
+        'local' => $local = [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
@@ -45,8 +45,8 @@ return [
         ],
 
         'data' => [
-            'driver' => 'local',
-            'root' => database_path('data'),
+            'driver' => $local['driver'],
+            'root' => "{$local['root']}/data",
             'visibility' => 'private',
         ],
 
