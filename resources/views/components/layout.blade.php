@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{{ mix('dist/app.css') }}">
     <script src="{{ mix('dist/app.js') }}" defer></script>
+
+    @stack('styles')
 </head>
 <body>
     {{ $slot }}

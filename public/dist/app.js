@@ -54,6 +54,7 @@ __webpack_require__.r(__webpack_exports__);
   var RESULT_ID = el.dataset.resultsId;
   var input = el.querySelector('#search');
   var dialog = document.querySelector('dialog');
+  var loader = document.querySelector('.loader');
   attachMovieCardActions();
   hijackNavigationLinks();
   el.addEventListener('submit', function (e) {
@@ -75,8 +76,8 @@ __webpack_require__.r(__webpack_exports__);
   function get() {
     var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    // let loading = true;
-    _utils_ajax__WEBPACK_IMPORTED_MODULE_0__["default"].get(url, data).then(onSuccessfullRequest)["catch"](onFailedRequest);
+    loading(true);
+    _utils_ajax__WEBPACK_IMPORTED_MODULE_0__["default"].get(url, data).then(onSuccessfullRequest)["catch"](onFailedRequest)["finally"](loading);
   }
 
   function attachMovieCardActions() {
@@ -134,6 +135,19 @@ __webpack_require__.r(__webpack_exports__);
     });
     element.innerHTML = '';
     element.appendChild(iframe);
+  }
+
+  function loading(state) {
+    if (!loader) {
+      return;
+    }
+
+    if (state === true) {
+      loader.removeAttribute('hidden');
+      return;
+    }
+
+    loader.setAttribute('hidden', '');
   }
 });
 

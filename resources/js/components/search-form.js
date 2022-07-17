@@ -7,6 +7,7 @@ export default (el) => {
 
     const input = el.querySelector('#search');
     const dialog = document.querySelector('dialog');
+    const loader = document.querySelector('.loader');
 
     attachMovieCardActions();
     hijackNavigationLinks();
@@ -30,9 +31,9 @@ export default (el) => {
     }
 
     function get(url = null, data = null) {
-        // let loading = true;
+        loading(true);
 
-        ajax.get(url, data).then(onSuccessfullRequest).catch(onFailedRequest);
+        ajax.get(url, data).then(onSuccessfullRequest).catch(onFailedRequest).finally(loading);
     }
 
     function attachMovieCardActions() {
@@ -98,5 +99,19 @@ export default (el) => {
         element.innerHTML = '';
 
         element.appendChild(iframe);
+    }
+
+    function loading(state) {
+        if (!loader) {
+            return;
+        }
+        
+        if (state === true) {
+            loader.removeAttribute('hidden');
+
+            return;
+        }
+
+        loader.setAttribute('hidden', '');
     }
 };
