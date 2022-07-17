@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -37,4 +38,36 @@ class Movie extends Model
     protected $casts = [
         'id' => 'int',
     ];
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 10;
+
+
+    /* Scopes
+    ------------------------------------------------*/
+
+    /**
+     * @example Movie::search(['name', 'genre'], 'Titanic')->get();
+     */
+    public function scopeSearch(Builder $query, array $attributes, string $term): Builder
+    {
+        return $query->where(function (Builder $query) use ($attributes, $term) {
+            foreach ($attributes as $attribute) {
+                $query->orWhere($attribute, 'LIKE', "%{$term}%");
+            }
+        });
+    }
+
+
+    /* Methods
+    ------------------------------------------------*/
+
+    public static function searchableFields(): array
+    {
+        return ['name', 'genre'];
+    }
 }
