@@ -25,6 +25,7 @@ class MovieSeeder extends Seeder
         }
 
         Artisan::call('data:fetch');
+        Artisan::call('data:images');
 
         $basePath = Storage::disk('data')->path('');
 

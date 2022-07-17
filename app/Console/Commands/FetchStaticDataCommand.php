@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -85,36 +84,7 @@ class FetchStaticDataCommand extends Command
 
         $this->saveData("{$this->basePath('genres')}/index.json", $genres);
 
-        $this->info("\nFetching the necessary images...\n");
-
-        $this->handleImages();
-
         $this->info("\nDone !\n");
-    }
-
-    private function handleImages(): void
-    {
-        $paths = collect($this->disk()->allFiles('movies'))
-            ->map(fn (string $path): string => "{$this->basePath('')}/{$path}")
-            ->map(fn (string $fullPath): array => json_decode(file_get_contents($fullPath), true))
-            ->flatMap(fn (array $content): Collection => collect($content['results'])->pluck('poster_path'));
-
-        $this->withProgressBar($paths, function (string $path) {
-            $this->fetchAndSaveImage("https://image.tmdb.org/t/p/w500{$path}");
-        });
-    }
-
-    private function fetchAndSaveImage(string $url): void
-    {
-        $fileName = pathinfo($url, PATHINFO_BASENAME);
-        $path = "movies/{$fileName}";
-        $disk = Storage::disk('public');
-
-        if ($disk->exists($path)) {
-            return;
-        }
-
-        $disk->put($path, fopen($url, 'r'));
     }
 
     private function disk(): FilesystemAdapter
