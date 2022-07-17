@@ -89,6 +89,8 @@ class IndexTest extends TestCase
             'genre' => 'Unknown',
         ]);
 
+        // Filtering by name
+
         $this->get('/?q=tit')
             ->assertStatus(200)
             ->assertSeeText(['Titanic', 'Drama', 'Titan', 'Science-Fiction'])
@@ -106,5 +108,25 @@ class IndexTest extends TestCase
             ->assertSeeText(['Titanic', 'Drama'])
             ->assertDontSeeText(['Science-Fiction'])
             ->assertViewHas('movies', Movie::searchWithTerm('titanic')->paginate()->withQueryString());
+
+        // Filtering by genre
+
+        $this->get('/?q=dra')
+            ->assertStatus(200)
+            ->assertSeeText(['Titanic', 'Drama'])
+            ->assertDontSeeText(['Science-Fiction', 'Yolo', 'Unknown'])
+            ->assertViewHas('movies', Movie::searchWithTerm('dra')->paginate()->withQueryString());
+
+        $this->get('/?q=drama')
+            ->assertStatus(200)
+            ->assertSeeText(['Titanic', 'Drama'])
+            ->assertDontSeeText(['Science-Fiction', 'Yolo', 'Unknown'])
+            ->assertViewHas('movies', Movie::searchWithTerm('drama')->paginate()->withQueryString());
+
+        $this->get('/?q=science')
+            ->assertStatus(200)
+            ->assertSeeText(['Titan', 'Science-Fiction'])
+            ->assertDontSeeText(['Titanic', 'Drama', 'Yolo', 'Unknown'])
+            ->assertViewHas('movies', Movie::searchWithTerm('science')->paginate()->withQueryString());
     }
 }
