@@ -6,6 +6,10 @@ export default (el) => {
     const RESULT_ID = el.dataset.resultsId;
 
     const input = el.querySelector('#search');
+    const dialog = document.querySelector('dialog');
+
+    attachMovieCardActions();
+    hijackNavigationLinks();
 
     el.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -22,7 +26,37 @@ export default (el) => {
     });
 
     function search() {
-        ajax.get('/', new FormData(el)).then(onSuccessfullRequest).catch(onFailedRequest);
+        get('/', new FormData(el));
+    }
+
+    function get(url = null, data = null) {
+        // let loading = true;
+
+        ajax.get(url, data).then(onSuccessfullRequest).catch(onFailedRequest);
+    }
+
+    function attachMovieCardActions() {
+        document.querySelectorAll('.movie-card > button').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const parent = btn.parentElement.cloneNode(true);
+
+                parent.querySelector('button').remove();
+
+                dialog.innerHTML = parent.outerHTML;
+
+                dialog.showModal();
+            });
+        });
+    }
+
+    function hijackNavigationLinks() {
+        document.querySelectorAll('.movie-pagination-wrapper a').forEach((anchor) => {
+            anchor.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                get(e.target.href);
+            }, { once: true });
+        });
     }
 
     function onSuccessfullRequest(response) {
@@ -38,9 +72,31 @@ export default (el) => {
 
             element.replaceWith(target);
         });
+
+        queueMicrotask(attachMovieCardActions);
+        queueMicrotask(hijackNavigationLinks);
     }
 
     function onFailedRequest(error) {
-        console.error(error);
+        const element = document.querySelector(RESULT_ID);
+
+        if (!element) {
+            return;
+        }
+
+        const iframe = document.createElement('iframe');
+
+        iframe.srcdoc = error.data;
+
+        Object.assign(iframe.style, {
+            width: '100%',
+            minHeight: '100vh',
+            border: 'none',
+            borderRadius: 'var(--rounded)',
+        });
+
+        element.innerHTML = '';
+
+        element.appendChild(iframe);
     }
 };

@@ -53,6 +53,9 @@ __webpack_require__.r(__webpack_exports__);
   var ERROR_ID = el.dataset.errorWrapperId;
   var RESULT_ID = el.dataset.resultsId;
   var input = el.querySelector('#search');
+  var dialog = document.querySelector('dialog');
+  attachMovieCardActions();
+  hijackNavigationLinks();
   el.addEventListener('submit', function (e) {
     e.preventDefault();
     search();
@@ -66,7 +69,36 @@ __webpack_require__.r(__webpack_exports__);
   });
 
   function search() {
-    _utils_ajax__WEBPACK_IMPORTED_MODULE_0__["default"].get('/', new FormData(el)).then(onSuccessfullRequest)["catch"](onFailedRequest);
+    get('/', new FormData(el));
+  }
+
+  function get() {
+    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    // let loading = true;
+    _utils_ajax__WEBPACK_IMPORTED_MODULE_0__["default"].get(url, data).then(onSuccessfullRequest)["catch"](onFailedRequest);
+  }
+
+  function attachMovieCardActions() {
+    document.querySelectorAll('.movie-card > button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var parent = btn.parentElement.cloneNode(true);
+        parent.querySelector('button').remove();
+        dialog.innerHTML = parent.outerHTML;
+        dialog.showModal();
+      });
+    });
+  }
+
+  function hijackNavigationLinks() {
+    document.querySelectorAll('.movie-pagination-wrapper a').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        get(e.target.href);
+      }, {
+        once: true
+      });
+    });
   }
 
   function onSuccessfullRequest(response) {
@@ -81,10 +113,27 @@ __webpack_require__.r(__webpack_exports__);
 
       element.replaceWith(target);
     });
+    queueMicrotask(attachMovieCardActions);
+    queueMicrotask(hijackNavigationLinks);
   }
 
   function onFailedRequest(error) {
-    console.error(error);
+    var element = document.querySelector(RESULT_ID);
+
+    if (!element) {
+      return;
+    }
+
+    var iframe = document.createElement('iframe');
+    iframe.srcdoc = error.data;
+    Object.assign(iframe.style, {
+      width: '100%',
+      minHeight: '100vh',
+      border: 'none',
+      borderRadius: 'var(--rounded)'
+    });
+    element.innerHTML = '';
+    element.appendChild(iframe);
   }
 });
 
