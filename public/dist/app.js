@@ -47,6 +47,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils_ajax__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/ajax */ "./resources/js/utils/ajax.js");
 /* harmony import */ var _utils_createElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/createElement */ "./resources/js/utils/createElement.js");
+/* harmony import */ var _utils_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/debounce */ "./resources/js/utils/debounce.js");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (el) {
@@ -55,6 +57,7 @@ __webpack_require__.r(__webpack_exports__);
   var input = el.querySelector('#search');
   var dialog = document.querySelector('dialog');
   var loader = document.querySelector('.loader');
+  var debouncedSearch = (0,_utils_debounce__WEBPACK_IMPORTED_MODULE_2__["default"])(search, 300);
   attachMovieCardActions();
   hijackNavigationLinks();
   el.addEventListener('submit', function (e) {
@@ -62,11 +65,10 @@ __webpack_require__.r(__webpack_exports__);
     search();
   });
   el.addEventListener('input', function () {
-    if (input.value.length < 2) {
-      return;
-    }
-
-    search();
+    // if (input.value && input.value.length < 2) {
+    //     return;
+    // }
+    debouncedSearch();
   });
 
   function search() {
@@ -406,6 +408,37 @@ function createElement(html) {
    * morph a fully fledged page nor table.
    */
   return document.createRange().createContextualFragment(html);
+}
+
+/***/ }),
+
+/***/ "./resources/js/utils/debounce.js":
+/*!****************************************!*\
+  !*** ./resources/js/utils/debounce.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ debounce)
+/* harmony export */ });
+/**
+ * @see https://github.com/alpinejs/alpine/blob/4654eb023e760920fa957d7b3e43a599cb88023d/packages/alpinejs/src/utils/debounce.js
+ */
+function debounce(func, wait) {
+  var timeout;
+  return function () {
+    var context = this,
+        args = arguments;
+
+    var later = function later() {
+      timeout = null;
+      func.apply(context, args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
 
 /***/ }),

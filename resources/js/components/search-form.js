@@ -1,5 +1,6 @@
 import ajax from '../utils/ajax';
 import createElement from '../utils/createElement';
+import debounce from '../utils/debounce';
 
 export default (el) => {
     const ERROR_ID = el.dataset.errorWrapperId;
@@ -8,6 +9,8 @@ export default (el) => {
     const input = el.querySelector('#search');
     const dialog = document.querySelector('dialog');
     const loader = document.querySelector('.loader');
+
+    const debouncedSearch = debounce(search, 300);
 
     attachMovieCardActions();
     hijackNavigationLinks();
@@ -19,11 +22,11 @@ export default (el) => {
     });
 
     el.addEventListener('input', () => {
-        if (input.value.length < 2) {
-            return;
-        }
+        // if (input.value && input.value.length < 2) {
+        //     return;
+        // }
 
-        search();
+        debouncedSearch();
     });
 
     function search() {
